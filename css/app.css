@@ -8,6 +8,26 @@ body {
     padding-top: 80px;
 }
 
+/* Product */
+
+#product-container .product-image {
+    width: 550px;
+
+    margin: 0 auto;
+}
+
+#product-container .product-title {
+    margin-bottom: 15px;
+
+    font-size: 2em;
+    font-weight: bold;
+}
+
+#product-container .product-description {
+    margin-bottom: 15px;
+}
+
+/* Index */
 .products-list .products-row {
     min-height: 280px;
 
@@ -42,6 +62,7 @@ body {
 .products-list .products-row a{
 }
 
+/* Events Stream */
 .events-list {
     display: none;
 

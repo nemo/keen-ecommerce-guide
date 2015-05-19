@@ -1,19 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Keen IO - E-Commerce Shop</title>
-
+    <title>Keen IO - E-Commerce Shop - Product</title>
 
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js "></script>
     <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+    <script type="text/javascript" src="bower_components/cookies-js/dist/cookies.min.js"></script>
+    <script type="text/javascript" src="bower_components/qs/dist/qs.min.js"></script>
+    <script type="text/javascript" src="bower_components/keen-js/dist/keen.min.js"></script>
+
     <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/product.js"></script>
 
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/app.css">
-</head>
+    <link rel="stylesheet" type="text/css" href="css/app.css"></head>
 <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Keen IO - E-Commerce Guide Example</a>
+        </div>
+      </div>
+    </nav>
 
+    <div class="container">
+        <div class="row">
+            <div class="row-xs-12">
+                <div class="well">
+                    <p class="lead">
+                        This is a product page. On load, we have sent the product_views event. We will only send an add_to_cart event when a user presses the Add to Cart button. We'll also make sure to use the same unique identifier as the page before, so we can connect the actions for this specific user.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row" id="product-container">
+            <div class="col-xs-12 col-md-8">
+                <div class="product-image" data-product-image></div>
+            </div>
+
+            <div class="col-xs-12 col-md-4">
+                <div class="product-title" data-product-title></div>
+                <div class="product-description">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
+                <a href="/cart.html" class="btn btn-primary add-to-cart">Add to Cart</a>
+            </div>
+        </div>
+    </div>
 
     <div class="events-list">
         <div class="events-title">
