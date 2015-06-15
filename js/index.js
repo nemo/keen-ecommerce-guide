@@ -1,6 +1,3 @@
-window._VISIT_COOKIE = "_has_visited_site";
-window._VISIT_COOKIE_DATE = "_has_visited_site_date";
-
 $(document).ready(function() {
     if (hasVisited())
         return;
@@ -42,11 +39,7 @@ function setVisitedCookie() {
 function sendVisitEvent() {
     var visitEvent = {
         path: location.pathname,
-        referrer: document.referrer,
-        user: {
-            uuid: getFirstVisitCookie(),
-            visited_at: getFirstVisitedDateCookie()
-        }
+        referrer: document.referrer
     };
 
     if (location.search && location.search.length) {

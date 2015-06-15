@@ -84,10 +84,15 @@ body {
 
 .events-list .events {
     height: 163px;
+    padding: 8px;
+    margin-bottom: 0;
 
     overflow: scroll;
+}
 
-    margin-bottom: 0;
+.events-list .events code {
+    padding: 0px;
+    margin: 0;
 }
 
 body.visible-events-list .events-list {
