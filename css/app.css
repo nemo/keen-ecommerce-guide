@@ -98,3 +98,11 @@ body {
 body.visible-events-list .events-list {
     display: block;
 }
+
+.keen-metric {
+    color: black !important;
+}
+
+.revenue .keen-metric .keen-metric-value:before {
+    content: '$';
+}

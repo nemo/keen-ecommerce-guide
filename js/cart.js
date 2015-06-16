@@ -1,14 +1,24 @@
+var redirecting = false;
+var showCartInterval;
+
 $(document).ready(function() {
-    showCart();
+    showCartInterval = setInterval(showCart, 1000);
 
-    setInterval(showCart, 1000);
-
-    $(".purchase").click(makePurchase);
+    $(".success-area").hide();
+    $(".purchase-area a").click(makePurchase);
 });
 
 
+function showSuccess() {
+    $(".purchase-area").hide();
+    $(".success-area").show();
+}
+
 function makePurchase(e) {
+    clearInterval(showCartInterval);
+
     e.preventDefault();
+    redirecting = true;
 
     var cartItems = window._getCart();
     window._setCart([]);
@@ -18,9 +28,8 @@ function makePurchase(e) {
         total: getTotal(cartItems)
     };
 
-    window._addEvent("purchases", purchaseEvent, function(err, res) {
-
-    }, "Completed purchase.");
+    window._addEvent("purchases", purchaseEvent, function(err, res) {}, "Completed purchase.");
+    showSuccess();
 }
 
 function getTotal(cartItems) {
@@ -40,7 +49,7 @@ function showCart() {
     var cartItems = window._getCart();
 
     if (!cartItems || (cartItems && !cartItems.length))
-        return;
+        return goToIndex();
 
     var $items = $("#cart tbody");
     var $total = $("#total");
@@ -78,4 +87,11 @@ function showCart() {
 
 function getProduct(productId) {
     return _.findWhere(window._products_list, {id: parseInt(productId)});
+}
+
+function goToIndex() {
+    if(!redirecting && !alert("You have to first add products to your Cart!")) {
+        redirecting = true;
+        window.location = "index.html"
+    }
 }

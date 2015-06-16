@@ -20,11 +20,17 @@
     <link rel="stylesheet" type="text/css" href="css/app.css"></head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Keen IO - E-Commerce Guide Example</a>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Keen IO - E-Commerce Guide Example</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                  <li><a class="active" href="dashboard.html">Dashboards</a></li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
 
     <div class="container">
@@ -65,12 +71,20 @@
                 </table>
             </div>
 
-            <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-6 purchase-area">
                 <p class="lead">
                     This is a fake purchase. When you press the buttom below, we'll send a purchase event to Keen.
                 </p>
 
-                <a href="#" class="btn btn-primary btn-lg purchase">Purchase Items</a>
+                <a href="#" class="btn btn-primary btn-lg">Purchase Items</a>
+            </div>
+
+            <div class="col-xs-12 col-md-6 success-area">
+                <p class="lead">
+                    You've made a totally fake purchase! As you can see in the events log below, a purchase event was sent here. Though, it's a good idea to send it on a thank you page for your e-commerce site &mdash; just to make sure it definitely ends up getting sent to Keen.
+                </p>
+
+                <a href="dashboard.html" class="btn btn-primary btn-lg">View Dashboard &amp; Visualizations</a>
             </div>
         </div>
     </div>

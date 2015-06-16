@@ -33,7 +33,8 @@ window._addEvent = function(collection, event, callback, reason) {
 
 window._keenClient = new Keen({
     projectId: '5557fe1c2fd4b1326f14444e',
-    writeKey: '500da5dd41d521713afc7e1b323f1d70f707fc9b4d9014b9911892a054c2849a9b1f2b2ab500c28fc8f03613cfc125b4c3a432d7f43e69acb8824d249d0cb65b6802d8a610bf1a7ab37d5d17bc27aa5617ca2a51742dedd735b65ca5fc4d62b1405c13f30b575375e171d44708b598c4'
+    writeKey: '500da5dd41d521713afc7e1b323f1d70f707fc9b4d9014b9911892a054c2849a9b1f2b2ab500c28fc8f03613cfc125b4c3a432d7f43e69acb8824d249d0cb65b6802d8a610bf1a7ab37d5d17bc27aa5617ca2a51742dedd735b65ca5fc4d62b1405c13f30b575375e171d44708b598c4',
+    readKey: 'd6cc507cf72af7dd0746b630edc51179355e2c074ab46d4545d3bfcecb02dabcbc46a78b8df5dd4b4b6ba2a7dff8fd5b3e3adbdf05cfeb42538205d2b528a357b0ab010e8c7efab939a01bce5be678a5dc3a7fa949db33cbee815a00dca93848d0b96908269a8be2bf70e40a9e213fb0'
 });
 
 
@@ -135,9 +136,6 @@ function setProducts() {
     _.each(window._products_list, function(product) {
         var $container = $("[data-product-id=" + product.id + "]");
 
-        console.log("[data-product-id=" + product.id + "]");
-        console.dir($container);
-
         $container.find("[data-product-title]").html(product.title);
         $container.find("[data-product-price]").html(product.price);
 
@@ -186,7 +184,7 @@ function showEvents() {
 }
 
 function getEventCode(collection, event) {
-    return "Keen.addEvent(collection, " + JSON.stringify(event, null, 2) + ")";
+    return "Keen.addEvent("+ collection + ", " + JSON.stringify(event, null, 2) + ")";
 }
 
 
