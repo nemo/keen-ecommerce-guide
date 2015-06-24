@@ -2130,7 +2130,7 @@ function Keen(config) {
 Keen.debug = false;
 Keen.enabled = true;
 Keen.loaded = true;
-Keen.version = '3.2.4';
+Keen.version = '3.2.5';
 Emitter(Keen);
 Emitter(Keen.prototype);
 Keen.prototype.configure = function(cfg){
@@ -2214,7 +2214,7 @@ var base64 = require('../utils/base64'),
     responseHandler = require('../helpers/superagent-handle-response');
 module.exports = function(collection, payload, callback, async) {
   var self = this,
-      urlBase = this.url('/events/' + collection),
+      urlBase = this.url('/events/' + encodeURIComponent(collection)),
       reqType = this.config.requestType,
       data = {},
       cb = callback,
@@ -2252,11 +2252,7 @@ module.exports = function(collection, payload, callback, async) {
   if ( getUrl && getContext() === 'browser' ) {
     request
       .get(getUrl)
-      .use(function(req){
-        req.async = isAsync;
-        return req;
-      })
-      .use(requestTypes(reqType))
+      .use(requestTypes(reqType, { async: isAsync }))
       .end(handleResponse);
   }
   else if ( getXHR() || getContext() === 'server' ) {

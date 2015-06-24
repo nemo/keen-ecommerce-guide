@@ -184,7 +184,7 @@ function showEvents() {
 }
 
 function getEventCode(collection, event) {
-    return "Keen.addEvent("+ collection + ", " + JSON.stringify(event, null, 2) + ")";
+    return "Keen.addEvent(\""+ collection + "\", " + JSON.stringify(event, null, 4) + ")";
 }
 
 

@@ -547,56 +547,6 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 },{}],5:[function(require,module,exports){
-/*!
-  * domready (c) Dustin Diaz 2012 - License MIT
-  */
-!function (name, definition) {
-  if (typeof module != 'undefined') module.exports = definition()
-  else if (typeof define == 'function' && typeof define.amd == 'object') define(definition)
-  else this[name] = definition()
-}('domready', function (ready) {
-  var fns = [], fn, f = false
-    , doc = document
-    , testEl = doc.documentElement
-    , hack = testEl.doScroll
-    , domContentLoaded = 'DOMContentLoaded'
-    , addEventListener = 'addEventListener'
-    , onreadystatechange = 'onreadystatechange'
-    , readyState = 'readyState'
-    , loadedRgx = hack ? /^loaded|^c/ : /^loaded|c/
-    , loaded = loadedRgx.test(doc[readyState])
-  function flush(f) {
-    loaded = 1
-    while (f = fns.shift()) f()
-  }
-  doc[addEventListener] && doc[addEventListener](domContentLoaded, fn = function () {
-    doc.removeEventListener(domContentLoaded, fn, f)
-    flush()
-  }, f)
-  hack && doc.attachEvent(onreadystatechange, fn = function () {
-    if (/^c/.test(doc[readyState])) {
-      doc.detachEvent(onreadystatechange, fn)
-      flush()
-    }
-  })
-  return (ready = hack ?
-    function (fn) {
-      self != top ?
-        loaded ? fn() : fns.push(fn) :
-        function () {
-          try {
-            testEl.doScroll('left')
-          } catch (e) {
-            return setTimeout(function() { ready(fn) }, 50)
-          }
-          fn()
-        }()
-    } :
-    function (fn) {
-      loaded ? fn() : fns.push(fn)
-    })
-})
-},{}],6:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -1520,9 +1470,9 @@ request.put = function(url, data, fn){
  * Expose `request`.
  */
 module.exports = request;
-},{"emitter":7,"reduce":8}],7:[function(require,module,exports){
+},{"emitter":6,"reduce":7}],6:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],8:[function(require,module,exports){
+},{"dup":4}],7:[function(require,module,exports){
 /**
  * Reduce `arr` with `fn`.
  *
@@ -1543,71 +1493,15 @@ module.exports = function(arr, fn, initial){
   }
   return curr;
 };
-},{}],9:[function(require,module,exports){
-var Keen = require("./index"),
-    each = require("./utils/each");
-module.exports = function(){
-  var loaded = window['Keen'] || null,
-      cached = window['_' + 'Keen'] || null,
-      clients,
-      ready;
-  if (loaded && cached) {
-    clients = cached['clients'] || {},
-    ready = cached['ready'] || [];
-    each(clients, function(client, id){
-      each(Keen.prototype, function(method, key){
-        loaded.prototype[key] = method;
-      });
-      each(["Query", "Request", "Dataset", "Dataviz"], function(name){
-        loaded[name] = (Keen[name]) ? Keen[name] : function(){};
-      });
-      if (client._config) {
-        client.configure.call(client, client._config);
-      }
-      if (client._setGlobalProperties) {
-        each(client._setGlobalProperties, function(fn){
-          client.setGlobalProperties.apply(client, fn);
-        });
-      }
-      if (client._addEvent) {
-        each(client._addEvent, function(obj){
-          client.addEvent.apply(client, obj);
-        });
-      }
-      var callback = client._on || [];
-      if (client._on) {
-        each(client._on, function(obj){
-          client.on.apply(client, obj);
-        });
-        client.trigger('ready');
-      }
-      each(["_config", "_setGlobalProperties", "_addEvent", "_on"], function(name){
-        if (client[name]) {
-          client[name] = undefined;
-          try{
-            delete client[name];
-          } catch(e){}
-        }
-      });
-    });
-    each(ready, function(cb, i){
-      Keen.once("ready", cb);
-    });
-  }
-  window['_' + 'Keen'] = undefined;
-  try {
-    delete window['_' + 'Keen']
-  } catch(e) {}
-};
-},{"./index":17,"./utils/each":23}],10:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var Emitter = require('component-emitter');
 Emitter.prototype.trigger = Emitter.prototype.emit;
 module.exports = Emitter;
-},{"component-emitter":4}],11:[function(require,module,exports){
+},{"component-emitter":4}],9:[function(require,module,exports){
 module.exports = function(){
   return "undefined" == typeof window ? "server" : "browser";
 };
-},{}],12:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var each = require('../utils/each'),
     JSON2 = require('JSON2');
 module.exports = function(params){
@@ -1620,7 +1514,11 @@ module.exports = function(params){
   });
   return '?' + query.join('&');
 };
-},{"../utils/each":23,"JSON2":2}],13:[function(require,module,exports){
+},{"../utils/each":21,"JSON2":2}],11:[function(require,module,exports){
+module.exports = function(){
+  return new Date().getTimezoneOffset() * -60;
+};
+},{}],12:[function(require,module,exports){
 module.exports = function(){
   if ("undefined" !== typeof window) {
     if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
@@ -1629,7 +1527,7 @@ module.exports = function(){
   }
   return 16000;
 };
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = function() {
   var root = "undefined" == typeof window ? this : window;
   if (root.XMLHttpRequest && ("file:" != root.location.protocol || !root.ActiveXObject)) {
@@ -1642,7 +1540,7 @@ module.exports = function() {
   }
   return false;
 };
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = function(err, res, callback) {
   var cb = callback || function() {};
   if (res && !res.ok) {
@@ -1658,7 +1556,7 @@ module.exports = function(err, res, callback) {
   }
   return;
 };
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var superagent = require('superagent');
 var each = require('../utils/each'),
     getXHR = require('./get-xhr-object');
@@ -1835,7 +1733,7 @@ function xhrShim(opts){
   };
   return this;
 }
-},{"../utils/each":23,"./get-xhr-object":14,"superagent":6}],17:[function(require,module,exports){
+},{"../utils/each":21,"./get-xhr-object":13,"superagent":5}],16:[function(require,module,exports){
 var root = this;
 var previous_Keen = root.Keen;
 var Emitter = require('./helpers/emitter-shim');
@@ -1916,271 +1814,186 @@ Keen.ready = function(fn){
   }
 };
 module.exports = Keen;
-},{"./helpers/emitter-shim":10}],18:[function(require,module,exports){
-var JSON2 = require('JSON2');
+},{"./helpers/emitter-shim":8}],17:[function(require,module,exports){
 var request = require('superagent');
-var Keen = require('../index');
-var base64 = require('../utils/base64'),
-    each = require('../utils/each'),
-    getContext = require('../helpers/get-context'),
-    getQueryString = require('../helpers/get-query-string'),
-    getUrlMaxLength = require('../helpers/get-url-max-length'),
-    getXHR = require('../helpers/get-xhr-object'),
-    requestTypes = require('../helpers/superagent-request-types'),
-    responseHandler = require('../helpers/superagent-handle-response');
-module.exports = function(collection, payload, callback, async) {
-  var self = this,
-      urlBase = this.url('/events/' + encodeURIComponent(collection)),
-      reqType = this.config.requestType,
-      data = {},
-      cb = callback,
-      isAsync,
-      getUrl;
-  isAsync = ('boolean' === typeof async) ? async : true;
-  if (!Keen.enabled) {
-    handleValidationError.call(self, 'Keen.enabled = false');
-    return;
-  }
-  if (!self.projectId()) {
-    handleValidationError.call(self, 'Missing projectId property');
-    return;
-  }
-  if (!self.writeKey()) {
-    handleValidationError.call(self, 'Missing writeKey property');
-    return;
-  }
-  if (!collection || typeof collection !== 'string') {
-    handleValidationError.call(self, 'Collection name must be a string');
-    return;
-  }
-  if (self.config.globalProperties) {
-    data = self.config.globalProperties(collection);
-  }
-  each(payload, function(value, key){
-    data[key] = value;
-  });
-  if ( !getXHR() && 'xhr' === reqType ) {
+var getQueryString = require('../helpers/get-query-string'),
+    handleResponse = require('../helpers/superagent-handle-response'),
+    requestTypes = require('../helpers/superagent-request-types');
+module.exports = function(url, params, api_key, callback){
+  var reqType = this.config.requestType,
+      data = params || {};
+  if (reqType === 'beacon') {
     reqType = 'jsonp';
   }
-  if ( 'xhr' !== reqType || !isAsync ) {
-    getUrl = prepareGetRequest.call(self, urlBase, data);
-  }
-  if ( getUrl && getContext() === 'browser' ) {
-    request
-      .get(getUrl)
-      .use(requestTypes(reqType, { async: isAsync }))
-      .end(handleResponse);
-  }
-  else if ( getXHR() || getContext() === 'server' ) {
-    request
-      .post(urlBase)
-      .set('Content-Type', 'application/json')
-      .set('Authorization', self.writeKey())
-      .send(data)
-      .end(handleResponse);
-  }
-  else {
-    self.trigger('error', 'Request not sent: URL length exceeds current browser limit, and XHR (POST) is not supported.');
-  }
-  function handleResponse(err, res){
-    responseHandler(err, res, cb);
-    cb = callback = null;
-  }
-  function handleValidationError(msg){
-    var err = 'Event not recorded: ' + msg;
-    self.trigger('error', err);
-    if (cb) {
-      cb.call(self, err, null);
-      cb = callback = null;
-    }
-  }
-  return;
-};
-function prepareGetRequest(url, data){
-  url += getQueryString({
-    api_key  : this.writeKey(),
-    data     : base64.encode( JSON2.stringify(data) ),
-    modified : new Date().getTime()
-  });
-  return ( url.length < getUrlMaxLength() ) ? url : false;
-}
-},{"../helpers/get-context":11,"../helpers/get-query-string":12,"../helpers/get-url-max-length":13,"../helpers/get-xhr-object":14,"../helpers/superagent-handle-response":15,"../helpers/superagent-request-types":16,"../index":17,"../utils/base64":22,"../utils/each":23,"JSON2":2,"superagent":6}],19:[function(require,module,exports){
-var Keen = require('../index');
-var request = require('superagent');
-var each = require('../utils/each'),
-    getContext = require('../helpers/get-context'),
-    getXHR = require('../helpers/get-xhr-object'),
-    requestTypes = require('../helpers/superagent-request-types'),
-    responseHandler = require('../helpers/superagent-handle-response');
-module.exports = function(payload, callback) {
-  var self = this,
-      urlBase = this.url('/events'),
-      data = {},
-      cb = callback;
-  if (!Keen.enabled) {
-    handleValidationError.call(self, 'Keen.enabled = false');
-    return;
-  }
-  if (!self.projectId()) {
-    handleValidationError.call(self, 'Missing projectId property');
-    return;
-  }
-  if (!self.writeKey()) {
-    handleValidationError.call(self, 'Missing writeKey property');
-    return;
-  }
-  if (arguments.length > 2) {
-    handleValidationError.call(self, 'Incorrect arguments provided to #addEvents method');
-    return;
-  }
-  if (typeof payload !== 'object' || payload instanceof Array) {
-    handleValidationError.call(self, 'Request payload must be an object');
-    return;
-  }
-  if (self.config.globalProperties) {
-    each(payload, function(events, collection){
-      each(events, function(body, index){
-        var base = self.config.globalProperties(collection);
-        each(body, function(value, key){
-          base[key] = value;
-        });
-        data[collection].push(base);
-      });
+  data['api_key'] = data['api_key'] || api_key;
+  request
+    .get(url+getQueryString(data))
+    .use(requestTypes(reqType))
+    .end(function(err, res){
+      handleResponse(err, res, callback);
+      callback = null;
     });
+};
+},{"../helpers/get-query-string":10,"../helpers/superagent-handle-response":14,"../helpers/superagent-request-types":15,"superagent":5}],18:[function(require,module,exports){
+var Request = require("../request");
+module.exports = function(query, callback) {
+  var queries = [],
+      cb = callback,
+      request;
+  if (query instanceof Array) {
+    queries = query;
+  } else {
+    queries.push(query);
   }
-  else {
-    data = payload;
+  request = new Request(this, queries, cb).refresh();
+  cb = callback = null;
+  return request;
+};
+},{"../request":20}],19:[function(require,module,exports){
+var each = require("./utils/each"),
+    extend = require("./utils/extend"),
+    getTimezoneOffset = require("./helpers/get-timezone-offset"),
+    getQueryString = require("./helpers/get-query-string");
+var Emitter = require('./helpers/emitter-shim');
+function Query(){
+  this.configure.apply(this, arguments);
+};
+Emitter(Query.prototype);
+Query.prototype.configure = function(analysisType, params) {
+  this.analysis = analysisType;
+  this.params = this.params || {};
+  this.set(params);
+  if (this.params.timezone === void 0) {
+    this.params.timezone = getTimezoneOffset();
   }
-  if ( getXHR() || getContext() === 'server' ) {
-    request
-      .post(urlBase)
-      .set('Content-Type', 'application/json')
-      .set('Authorization', self.writeKey())
-      .send(data)
-      .end(function(err, res){
-        responseHandler(err, res, cb);
-        cb = callback = null;
+  return this;
+};
+Query.prototype.set = function(attributes) {
+  var self = this;
+  each(attributes, function(v, k){
+    var key = k, value = v;
+    if (k.match(new RegExp("[A-Z]"))) {
+      key = k.replace(/([A-Z])/g, function($1) { return "_"+$1.toLowerCase(); });
+    }
+    self.params[key] = value;
+    if (value instanceof Array) {
+      each(value, function(dv, index){
+        if (dv instanceof Array == false && typeof dv === "object") {
+          each(dv, function(deepValue, deepKey){
+            if (deepKey.match(new RegExp("[A-Z]"))) {
+              var _deepKey = deepKey.replace(/([A-Z])/g, function($1) { return "_"+$1.toLowerCase(); });
+              delete self.params[key][index][deepKey];
+              self.params[key][index][_deepKey] = deepValue;
+            }
+          });
+        }
       });
-  }
-  else {
-    self.trigger('error', 'Events not recorded: XHR support is required for batch upload');
-  }
-  function handleValidationError(msg){
-    var err = 'Events not recorded: ' + msg;
-    self.trigger('error', err);
-    if (cb) {
-      cb.call(self, err, null);
-      cb = callback = null;
     }
-  }
-  return;
+  });
+  return self;
 };
-},{"../helpers/get-context":11,"../helpers/get-xhr-object":14,"../helpers/superagent-handle-response":15,"../helpers/superagent-request-types":16,"../index":17,"../utils/each":23,"superagent":6}],20:[function(require,module,exports){
-module.exports = function(newGlobalProperties) {
-  if (newGlobalProperties && typeof(newGlobalProperties) == "function") {
-    this.config.globalProperties = newGlobalProperties;
-  } else {
-    this.trigger("error", "Invalid value for global properties: " + newGlobalProperties);
+Query.prototype.get = function(attribute) {
+  var key = attribute;
+  if (key.match(new RegExp("[A-Z]"))) {
+    key = key.replace(/([A-Z])/g, function($1) { return "_"+$1.toLowerCase(); });
   }
-};
-},{}],21:[function(require,module,exports){
-var addEvent = require("./addEvent");
-module.exports = function(jsEvent, eventCollection, payload, timeout, timeoutCallback){
-  var evt = jsEvent,
-      target = (evt.currentTarget) ? evt.currentTarget : (evt.srcElement || evt.target),
-      timer = timeout || 500,
-      triggered = false,
-      targetAttr = "",
-      callback,
-      win;
-  if (target.getAttribute !== void 0) {
-    targetAttr = target.getAttribute("target");
-  } else if (target.target) {
-    targetAttr = target.target;
-  }
-  if ((targetAttr == "_blank" || targetAttr == "blank") && !evt.metaKey) {
-    win = window.open("about:blank");
-    win.document.location = target.href;
-  }
-  if (target.nodeName === "A") {
-    callback = function(){
-      if(!triggered && !evt.metaKey && (targetAttr !== "_blank" && targetAttr !== "blank")){
-        triggered = true;
-        window.location = target.href;
-      }
-    };
-  } else if (target.nodeName === "FORM") {
-    callback = function(){
-      if(!triggered){
-        triggered = true;
-        target.submit();
-      }
-    };
-  } else {
-    this.trigger("error", "#trackExternalLink method not attached to an <a> or <form> DOM element");
-  }
-  if (timeoutCallback) {
-    callback = function(){
-      if(!triggered){
-        triggered = true;
-        timeoutCallback();
-      }
-    };
-  }
-  addEvent.call(this, eventCollection, payload, callback);
-  setTimeout(callback, timer);
-  if (!evt.metaKey) {
-    return false;
+  if (this.params) {
+    return this.params[key] || null;
   }
 };
-},{"./addEvent":18}],22:[function(require,module,exports){
-module.exports = {
-  map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-  encode: function (n) {
-    "use strict";
-    var o = "", i = 0, m = this.map, i1, i2, i3, e1, e2, e3, e4;
-    n = this.utf8.encode(n);
-    while (i < n.length) {
-      i1 = n.charCodeAt(i++); i2 = n.charCodeAt(i++); i3 = n.charCodeAt(i++);
-      e1 = (i1 >> 2); e2 = (((i1 & 3) << 4) | (i2 >> 4)); e3 = (isNaN(i2) ? 64 : ((i2 & 15) << 2) | (i3 >> 6));
-      e4 = (isNaN(i2) || isNaN(i3)) ? 64 : i3 & 63;
-      o = o + m.charAt(e1) + m.charAt(e2) + m.charAt(e3) + m.charAt(e4);
-    } return o;
-  },
-  decode: function (n) {
-    "use strict";
-    var o = "", i = 0, m = this.map, cc = String.fromCharCode, e1, e2, e3, e4, c1, c2, c3;
-    n = n.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-    while (i < n.length) {
-      e1 = m.indexOf(n.charAt(i++)); e2 = m.indexOf(n.charAt(i++));
-      e3 = m.indexOf(n.charAt(i++)); e4 = m.indexOf(n.charAt(i++));
-      c1 = (e1 << 2) | (e2 >> 4); c2 = ((e2 & 15) << 4) | (e3 >> 2);
-      c3 = ((e3 & 3) << 6) | e4;
-      o = o + (cc(c1) + ((e3 != 64) ? cc(c2) : "")) + (((e4 != 64) ? cc(c3) : ""));
-    } return this.utf8.decode(o);
-  },
-  utf8: {
-    encode: function (n) {
-      "use strict";
-      var o = "", i = 0, cc = String.fromCharCode, c;
-      while (i < n.length) {
-        c = n.charCodeAt(i++); o = o + ((c < 128) ? cc(c) : ((c > 127) && (c < 2048)) ?
-        (cc((c >> 6) | 192) + cc((c & 63) | 128)) : (cc((c >> 12) | 224) + cc(((c >> 6) & 63) | 128) + cc((c & 63) | 128)));
-        } return o;
-    },
-    decode: function (n) {
-      "use strict";
-      var o = "", i = 0, cc = String.fromCharCode, c2, c;
-      while (i < n.length) {
-        c = n.charCodeAt(i);
-        o = o + ((c < 128) ? [cc(c), i++][0] : ((c > 191) && (c < 224)) ?
-        [cc(((c & 31) << 6) | ((c2 = n.charCodeAt(i + 1)) & 63)), (i += 2)][0] :
-        [cc(((c & 15) << 12) | (((c2 = n.charCodeAt(i + 1)) & 63) << 6) | ((c3 = n.charCodeAt(i + 2)) & 63)), (i += 3)][0]);
-      } return o;
+Query.prototype.addFilter = function(property, operator, value) {
+  this.params.filters = this.params.filters || [];
+  this.params.filters.push({
+    "property_name": property,
+    "operator": operator,
+    "property_value": value
+  });
+  return this;
+};
+module.exports = Query;
+},{"./helpers/emitter-shim":8,"./helpers/get-query-string":10,"./helpers/get-timezone-offset":11,"./utils/each":21,"./utils/extend":22}],20:[function(require,module,exports){
+var each = require("./utils/each"),
+    extend = require("./utils/extend"),
+    sendQuery = require("./utils/sendQuery");
+var Keen = require("./");
+var Emitter = require('./helpers/emitter-shim');
+function Request(client, queries, callback){
+  var cb = callback;
+  this.config = {
+    timeout: 300 * 1000
+  };
+  this.configure(client, queries, cb);
+  cb = callback = null;
+};
+Emitter(Request.prototype);
+Request.prototype.configure = function(client, queries, callback){
+  var cb = callback;
+  extend(this, {
+    "client"   : client,
+    "queries"  : queries,
+    "data"     : {},
+    "callback" : cb
+  });
+  cb = callback = null;
+  return this;
+};
+Request.prototype.timeout = function(ms){
+  if (!arguments.length) return this.config.timeout;
+  this.config.timeout = (!isNaN(parseInt(ms)) ? parseInt(ms) : null);
+  return this;
+};
+Request.prototype.refresh = function(){
+  var self = this,
+      completions = 0,
+      response = [],
+      errored = false;
+  var handleResponse = function(err, res, index){
+    if (err) {
+      self.trigger("error", err);
+      if (self.callback) {
+        self.callback(err, null);
+      }
+      errored = true;
+      return;
     }
-  }
+    response[index] = res;
+    completions++;
+    if (completions == self.queries.length && !errored) {
+      self.data = (self.queries.length == 1) ? response[0] : response;
+      self.trigger("complete", null, self.data);
+      if (self.callback) {
+        self.callback(null, self.data);
+      }
+    }
+  };
+  each(self.queries, function(query, index){
+    var path;
+    var cbSequencer = function(err, res){
+      handleResponse(err, res, index);
+    };
+    if (query instanceof Keen.Query) {
+      path = "/queries/" + query.analysis;
+      sendQuery.call(self, path, query.params, cbSequencer);
+    }
+    else if ( Object.prototype.toString.call(query) === "[object String]" ) {
+      path = "/saved_queries/" + encodeURIComponent(query) + "/result";
+      sendQuery.call(self, path, null, cbSequencer);
+    }
+    else {
+      var res = {
+        statusText: "Bad Request",
+        responseText: { message: "Error: Query " + (+index+1) + " of " + self.queries.length + " for project " + self.client.projectId() + " is not a valid request" }
+      };
+      self.trigger("error", res.responseText.message);
+      if (self.callback) {
+        self.callback(res.responseText.message, null);
+      }
+    }
+  });
+  return this;
 };
-},{}],23:[function(require,module,exports){
+module.exports = Request;
+},{"./":16,"./helpers/emitter-shim":8,"./utils/each":21,"./utils/extend":22,"./utils/sendQuery":24}],21:[function(require,module,exports){
 module.exports = function(o, cb, s){
   var n;
   if (!o){
@@ -2204,7 +2017,7 @@ module.exports = function(o, cb, s){
   }
   return 1;
 };
-},{}],24:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = function(target){
   for (var i = 1; i < arguments.length; i++) {
     for (var prop in arguments[i]){
@@ -2213,7 +2026,7 @@ module.exports = function(target){
   }
   return target;
 };
-},{}],25:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 function parseParams(str){
   var urlParams = {},
       match,
@@ -2227,7 +2040,58 @@ function parseParams(str){
   return urlParams;
 };
 module.exports = parseParams;
-},{}],26:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
+var request = require('superagent');
+var getContext = require('../helpers/get-context'),
+    getQueryString = require('../helpers/get-query-string'),
+    getUrlMaxLength = require('../helpers/get-url-max-length'),
+    getXHR = require('../helpers/get-xhr-object'),
+    requestTypes = require('../helpers/superagent-request-types'),
+    responseHandler = require('../helpers/superagent-handle-response');
+module.exports = function(path, params, callback){
+  var self = this,
+      urlBase = this.client.url(path),
+      reqType = this.client.config.requestType,
+      cb = callback;
+  callback = null;
+  if (!self.client.projectId()) {
+    self.client.trigger('error', 'Query not sent: Missing projectId property');
+    return;
+  }
+  if (!self.client.readKey()) {
+    self.client.trigger('error', 'Query not sent: Missing readKey property');
+    return;
+  }
+  if (getXHR() || getContext() === 'server' ) {
+    request
+      .post(urlBase)
+        .set('Content-Type', 'application/json')
+        .set('Authorization', self.client.readKey())
+        .timeout(self.timeout())
+        .send(params || {})
+        .end(handleResponse);
+  }
+  else {
+    extend(params, { api_key: self.client.readKey() });
+    urlBase += getQueryString(params);
+    if (urlBase.length < getUrlMaxLength() ) {
+      request
+        .get(urlBase)
+        .timeout(self.timeout())
+        .use(requestTypes('jsonp'))
+        .end(handleResponse);
+    }
+    else {
+      self.client.trigger('error', 'Query not sent: URL length exceeds current browser limit, and XHR (POST) is not supported.');
+    }
+  }
+  function handleResponse(err, res){
+    responseHandler(err, res, cb);
+    cb = callback = null;
+  }
+  return;
+}
+},{"../helpers/get-context":9,"../helpers/get-query-string":10,"../helpers/get-url-max-length":12,"../helpers/get-xhr-object":13,"../helpers/superagent-handle-response":14,"../helpers/superagent-request-types":15,"superagent":5}],25:[function(require,module,exports){
 (function (global){
 ;(function (f) {
   if (typeof define === "function" && define.amd) {
@@ -2252,28 +2116,19 @@ module.exports = parseParams;
   var Keen = require("./core"),
       extend = require("./core/utils/extend");
   extend(Keen.prototype, {
-    "addEvent"            : require("./core/lib/addEvent"),
-    "addEvents"           : require("./core/lib/addEvents"),
-    "setGlobalProperties" : require("./core/lib/setGlobalProperties"),
-    "trackExternalLink"   : require("./core/lib/trackExternalLink")
+    "get"                 : require("./core/lib/get"),
+    "run"                 : require("./core/lib/run")
   });
-  Keen.Base64 = require("./core/utils/base64");
+  Keen.Query = require("./core/query");
+  Keen.Request = require("./core/request");
   Keen.utils = {
-    "domready"     : require("domready"),
     "each"         : require("./core/utils/each"),
     "extend"       : extend,
-    "parseParams"  : require("./core/utils/parseParams")
+    "parseParams"  : require("./core/utils/parseParams"),
   };
-  if (Keen.loaded) {
-    setTimeout(function(){
-      Keen.utils.domready(function(){
-        Keen.emit("ready");
-      });
-    }, 0);
-  }
-  require("./core/async")();
+  Keen.emit("ready");
   module.exports = Keen;
   return Keen;
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./core":17,"./core/async":9,"./core/lib/addEvent":18,"./core/lib/addEvents":19,"./core/lib/setGlobalProperties":20,"./core/lib/trackExternalLink":21,"./core/utils/base64":22,"./core/utils/each":23,"./core/utils/extend":24,"./core/utils/parseParams":25,"domready":5}]},{},[26]);
+},{"./core":16,"./core/lib/get":17,"./core/lib/run":18,"./core/query":19,"./core/request":20,"./core/utils/each":21,"./core/utils/extend":22,"./core/utils/parseParams":23}]},{},[25]);

@@ -5,6 +5,7 @@
   "license": "MIT",
   "authors": [
     "Dustin Larimer <dustin@keen.io>",
+    "André Luis Leal Cardoso Junior <andrehjr@gmail.com>",
     "Sean Dokko <sean@keen.io>",
     "Jordan Klassen <forivall@gmail.com>",
     "Josh Dzielak <josh@keen.io>",
@@ -50,15 +51,15 @@
     "requirejs-bower": "2.1.14",
     "sinon-1.12.1": "http://sinonjs.org/releases/sinon-1.12.1.js"
   },
-  "version": "3.2.4",
-  "_release": "3.2.4",
+  "version": "3.2.5",
+  "_release": "3.2.5",
   "_resolution": {
     "type": "version",
-    "tag": "v3.2.4",
-    "commit": "9b9debca1970e18b537f6ddf05d66fbf2f09d77e"
+    "tag": "v3.2.5",
+    "commit": "8d3fa8b355b7b38e7b33bc55d378cf2247335f08"
   },
   "_source": "git://github.com/keen/keen-js.git",
-  "_target": "~3.2.4",
+  "_target": "~3.2.5",
   "_originalSource": "keen-js",
   "_direct": true
 }

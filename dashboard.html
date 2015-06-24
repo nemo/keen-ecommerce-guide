@@ -7,7 +7,11 @@
     <link rel="stylesheet" type="text/css" href="css/keen-dashboards.css" />
     <link rel="stylesheet" type="text/css" href="bower_components/c3/c3.min.css"></head>
     <link rel="stylesheet" type="text/css" href="css/app.css"></head>
+
+    <script type="text/javascript" src="bower_components/d3/d3.min.js "></script>
+    <script type="text/javascript" src="bower_components/c3/c3.min.js"></script>
 </head>
+
 <body class="application">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
@@ -26,32 +30,45 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-4">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="chart-wrapper">
-                            <div class="chart-title">
-                                AOV
-                            </div>
-                            <div class="chart-stage revenue" id="chart-aov">
-                                <img data-src="holder.js/100%x120/white">
-                            </div>
-                            <div class="chart-notes">
-                                Shop's Average Order Value.
-                            </div>
-                        </div>
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Conversion Rate
+                    </div>
+                    <div class="chart-stage" id='conversion-rate'>
+                        <img data-src="holder.js/100%x120/white">
+                    </div>
+                    <div class="chart-notes">
+                        % of users who have become purchasers in the past 30 days.
                     </div>
                 </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Purchase Funnel
+                    </div>
+                    <div class="chart-stage" id="funnel">
+                        <img data-src="holder.js/100%x120/white">
+                    </div>
+                    <div class="chart-notes">
+                        Full funnel from first visit to purchase.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="chart-wrapper">
                             <div class="chart-title">
-                                Cell Title
+                                Repeat Purchase Rate
                             </div>
-                            <div class="chart-stage">
+                            <div class="chart-stage" id="repeat-purchasers">
                                 <img data-src="holder.js/100%x120/white">
                             </div>
                             <div class="chart-notes">
-                                Notes about this chart
+                                % Users who have made repeat purchases.
                             </div>
                         </div>
                     </div>
@@ -60,13 +77,13 @@
             <div class="col-sm-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">
-                        Revenue
+                        Total Revenue
                     </div>
-                    <div class="chart-stage revenue" id="chart-revenue">
-                        <img data-src="holder.js/100%x325/white">
+                    <div class="chart-stage" id="total-revenue">
+                        <img data-src="holder.js/100%x120/white">
                     </div>
                     <div class="chart-notes">
-                        Total Revenue from shop.
+                        Total Revenue made in the past 30 days.
                     </div>
                 </div>
             </div>
@@ -77,26 +94,11 @@
                             <div class="chart-title">
                                 Add To Cart Rate
                             </div>
-                            <div class="chart-stage" id='add-to-cart'>
+                            <div class="chart-stage" id="add-to-cart">
                                 <img data-src="holder.js/100%x120/white">
                             </div>
                             <div class="chart-notes">
-                                % of Product Views that results in an Add to Cart.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="chart-wrapper">
-                            <div class="chart-title">
-                                Cell Title
-                            </div>
-                            <div class="chart-stage">
-                                <img data-src="holder.js/100%x120/white">
-                            </div>
-                            <div class="chart-notes">
-                                Notes about this chart
+                                % of Product Views that result in an Add to Cart.
                             </div>
                         </div>
                     </div>
@@ -107,48 +109,48 @@
             <div class="col-sm-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">
-                        Cell Title
+                        Average Lifetime Value
                     </div>
-                    <div class="chart-stage">
+                    <div class="chart-stage" id="lifetime-value">
                         <img data-src="holder.js/100%x120/white">
                     </div>
                     <div class="chart-notes">
-                        Notes about this chart
+                        Average Customer Lifetime Value.
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">
-                        Cell Title
+                        Daily Revenue
                     </div>
-                    <div class="chart-stage">
-                        <img data-src="holder.js/100%x120/white">
+                    <div class="chart-stage" id="chart-revenue">
+                        <img data-src="holder.js/100%x325/white">
                     </div>
                     <div class="chart-notes">
-                        Notes about this chart
+                        Sum of all purchase totals on a daily basis.
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">
-                        Cell Title
+                        AOV
                     </div>
-                    <div class="chart-stage">
+                    <div class="chart-stage" id="chart-aov">
                         <img data-src="holder.js/100%x120/white">
                     </div>
                     <div class="chart-notes">
-                        Notes about this chart
+                        Weekly Average Order Value.
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-sm-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">
-                        Cell Title
+                        Cell Title 5
                     </div>
                     <div class="chart-stage">
                         <img data-src="holder.js/100%x120/white">
@@ -157,11 +159,11 @@
                         Notes about this chart
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
+            </div> -->
+<!--             <div class="col-sm-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">
-                        Cell Title
+                        Cell Title 6
                     </div>
                     <div class="chart-stage">
                         <img data-src="holder.js/100%x120/white">
@@ -170,11 +172,11 @@
                         Notes about this chart
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
+            </div> -->
+<!--             <div class="col-sm-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">
-                        Cell Title
+                        Cell Title 7
                     </div>
                     <div class="chart-stage">
                         <img data-src="holder.js/100%x120/white">
@@ -183,7 +185,7 @@
                         Notes about this chart
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div>
@@ -202,10 +204,6 @@
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js "></script>
     <script type="text/javascript" src="bower_components/qs/dist/qs.min.js"></script>
     <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
-
-    <script type="text/javascript" src="bower_components/d3/d3.min.js "></script>
-    <script type="text/javascript" src="bower_components/c3/c3.min.js"></script>
-
 
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/dashboard.js"></script>
