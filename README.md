@@ -11,7 +11,7 @@ This guide will walk you through some best practices for using Keen IO to track 
 
 ## Data Model
 
-In order to be able to do the queries for the metrics, we'll have to have the right data collections in place. Below, you'll find a schema for the collections for the metrics we're  going to display.
+In order to be able to do the queries for the metrics, we'll have to have the right data collections in place. Below, you'll find an example data model to use for your shop.
 
 ### Collections
 
@@ -113,8 +113,13 @@ In order to connect the different collections, we will be sending a few common a
 The common `user` attribute will help us to follow the user's journey through their experience on the site over time.
 
 
-## Tracking & Metrics
+## Tracking & Visualization
 
-We've built an example 
+###Tracking
 
-Here, we'll link them to an example of all of it coming together.
+To illustrate how to use the data model, we've created a [fake example e-commerce website here](http://nemo.github.io/keen-ecommerce-guide/) with detailed examples of how and when to send events during the user's experience with your shop.
+
+
+###Visualization
+
+Based on this data model and the events that are sent on the shop, we've setup an example dashboard [here](http://nemo.github.io/keen-ecommerce-guide/). You can also view the source for this dashboard in [dashboard.js](https://github.com/nemo/keen-ecommerce-guide/blob/master/js/dashboard.js) and [dashboard.html](https://github.com/nemo/keen-ecommerce-guide/blob/master/dashboard.html).
