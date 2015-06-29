@@ -28,7 +28,7 @@ We'll be using the following collections that will help us
 
 Example event:
 
-```
+```javascript
 var client = new Keen({
     projectId: "your_project_id",
     writeKey: "your_write_key"
@@ -62,7 +62,7 @@ client.addEvent('first_visits', {
 
 Example attributes JSON:
 
-```
+```javascript
 var client = new Keen({
     projectId: "your_project_id",
     writeKey: "your_write_key"
@@ -93,7 +93,7 @@ client.addEvent('product_views', {
 
 Example attributes JSON:
 
-```
+```javascript
 var client = new Keen({
     projectId: "your_project_id",
     writeKey: "your_write_key"
@@ -122,7 +122,7 @@ client.addEvent('add_to_carts', {
 
 Example attributes JSON:
 
-```
+```javascript
 var client = new Keen({
     projectId: "your_project_id",
     writeKey: "your_write_key"
@@ -140,16 +140,11 @@ client.addEvent('purchases', {
 
 ### Common attributes
 
-In order to connect the different collections, we will be sending a few common attributes with all our events:
+In order to connect the different collections, we will be sending a user object attributes with all our events:
 
-```
-{
-    user: {
-        uuid: An identifier generated for the user when they first visited,
-        first_visited_at: A date for when the user first visited
-    }
-}
-```
+- `user.uuid`: An identifier generated for the user when they first visited.
+- `user.first_visited_at`: A date for when the user first visited.
+
 The common `user` attribute will help us to follow the user's journey through their experience on the site over time.
 
 
