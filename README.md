@@ -1,6 +1,6 @@
 # E-Commerce Tracking Guide
 
-This guide will walk you through some best practices for using Keen IO to track common e-commerce metrics such as: 
+This guide will walk you through some best practices for using Keen IO to track common e-commerce metrics such as:
 
 - Sign Up Rate
 - Activation Rate / Conversion Rate
@@ -15,7 +15,7 @@ In order to be able to do the queries for the metrics, we'll have to have the ri
 
 ### Collections
 
-We'll be using the following collections that will help us 
+We'll be using the following collections that will help us
 
 #### Collection: first_visits
 **Purpose:** To track the first visit of each visitor.
@@ -24,19 +24,29 @@ We'll be using the following collections that will help us
 - `path`: Path of the page.
 - `referrer`: Referrer URL, taken from `document.referrer`.
 - `params`: Desired URL params.
+- `user`: Information about the user, [explained here](#common-attributes).
 
-Example attributes JSON:
+Example event:
 
 ```
-{
+var client = new Keen({
+    projectId: "your_project_id",
+    writeKey: "your_write_key"
+});
+
+client.addEvent('first_visits', {
     path: "/ad-landing-page",
     referrer: "http://google.com",
     params: {
-        utm_source: "google",        
+        utm_source: "google",
         utm_medium: "cpc",
         utm_campaign: "campaign_name"
+    },
+    user: {
+        uuid: "xxxx-xxxx-xxxx-xxxx-xxxx",
+        first_visited_at: "2015-06-29T07:36:55.929Z"
     }
-}
+});
 ```
 
 
@@ -48,16 +58,26 @@ Example attributes JSON:
 - `product_id`: Product's ID.
 - `product_name`: Product's Name.
 - `product_price`: Product's Price.
+- `user`: Information about the user, [explained here](#common-attributes).
 
 Example attributes JSON:
 
 ```
-{
+var client = new Keen({
+    projectId: "your_project_id",
+    writeKey: "your_write_key"
+});
+
+client.addEvent('product_views', {
     "path": "/products/1800-summer-pants",
     "product_id": "1800"",
     "product_name": "Summer Pants",
-    "product_price": 69.99
-}
+    "product_price": 69.99,
+    user: {
+        uuid: "xxxx-xxxx-xxxx-xxxx-xxxx",
+        first_visited_at: "2015-06-29T07:36:55.929Z"
+    }
+});
 ```
 
 #### Collection: add_to_carts
@@ -69,17 +89,27 @@ Example attributes JSON:
 - `product_name`: Product's Name.
 - `product_price`: Product's Price.
 - `quantity`: Quantity being added to Cart.
+- `user`: Information about the user, [explained here](#common-attributes).
 
 Example attributes JSON:
 
 ```
-{
+var client = new Keen({
+    projectId: "your_project_id",
+    writeKey: "your_write_key"
+});
+
+client.addEvent('add_to_carts', {
     "cart_id": "201",
     "product_id": "1800",
     "product_name": "Summer Pants",
     "product_price": 69.99,
-    "quantity": 1
-}
+    "quantity": 1,
+    user: {
+        uuid: "xxxx-xxxx-xxxx-xxxx-xxxx",
+        first_visited_at: "2015-06-29T07:36:55.929Z"
+    }
+});
 ```
 
 #### Collection: purchases
@@ -88,14 +118,24 @@ Example attributes JSON:
 
 - `cart_id`: Cart being purchased's ID.
 - `total`: Total amount being purchased.
+- `user`: Information about the user, [explained here](#common-attributes).
 
 Example attributes JSON:
 
 ```
-{
+var client = new Keen({
+    projectId: "your_project_id",
+    writeKey: "your_write_key"
+});
+
+client.addEvent('purchases', {
     "cart_id": "201",
-    "total": 139.98
-}
+    "total": 139.98,
+    user: {
+        uuid: "xxxx-xxxx-xxxx-xxxx-xxxx",
+        first_visited_at: "2015-06-29T07:36:55.929Z"
+    }
+});
 ```
 
 ### Common attributes
@@ -115,11 +155,11 @@ The common `user` attribute will help us to follow the user's journey through th
 
 ## Tracking & Visualization
 
-###Tracking
+### Tracking
 
 To illustrate how to use the data model, we've created a [fake example e-commerce website here](http://nemo.github.io/keen-ecommerce-guide/) with detailed examples of how and when to send events during the user's experience with your shop.
 
 
-###Visualization
+### Visualization
 
 Based on this data model and the events that are sent on the shop, we've setup an example dashboard [here](http://nemo.github.io/keen-ecommerce-guide/). You can also view the source for this dashboard in [dashboard.js](https://github.com/nemo/keen-ecommerce-guide/blob/master/js/dashboard.js) and [dashboard.html](https://github.com/nemo/keen-ecommerce-guide/blob/master/dashboard.html).
