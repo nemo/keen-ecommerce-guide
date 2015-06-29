@@ -42,7 +42,7 @@ client.addEvent('first_visits', {
         utm_medium: "cpc",
         utm_campaign: "campaign_name"
     },
-    user: {
+    "user": {
         uuid: "xxxx-xxxx-xxxx-xxxx-xxxx",
         first_visited_at: "2015-06-29T07:36:55.929Z"
     }
@@ -60,7 +60,7 @@ client.addEvent('first_visits', {
 - `product_price`: Product's Price.
 - `user`: Information about the user, [explained here](#common-attributes).
 
-Example attributes JSON:
+Example event:
 
 ```javascript
 var client = new Keen({
@@ -73,7 +73,7 @@ client.addEvent('product_views', {
     "product_id": "1800"",
     "product_name": "Summer Pants",
     "product_price": 69.99,
-    user: {
+    "user": {
         uuid: "xxxx-xxxx-xxxx-xxxx-xxxx",
         first_visited_at: "2015-06-29T07:36:55.929Z"
     }
@@ -91,7 +91,7 @@ client.addEvent('product_views', {
 - `quantity`: Quantity being added to Cart.
 - `user`: Information about the user, [explained here](#common-attributes).
 
-Example attributes JSON:
+Example event:
 
 ```javascript
 var client = new Keen({
@@ -105,7 +105,7 @@ client.addEvent('add_to_carts', {
     "product_name": "Summer Pants",
     "product_price": 69.99,
     "quantity": 1,
-    user: {
+    "user": {
         uuid: "xxxx-xxxx-xxxx-xxxx-xxxx",
         first_visited_at: "2015-06-29T07:36:55.929Z"
     }
@@ -120,7 +120,7 @@ client.addEvent('add_to_carts', {
 - `total`: Total amount being purchased.
 - `user`: Information about the user, [explained here](#common-attributes).
 
-Example attributes JSON:
+Example event:
 
 ```javascript
 var client = new Keen({
@@ -131,7 +131,7 @@ var client = new Keen({
 client.addEvent('purchases', {
     "cart_id": "201",
     "total": 139.98,
-    user: {
+    "user": {
         uuid: "xxxx-xxxx-xxxx-xxxx-xxxx",
         first_visited_at: "2015-06-29T07:36:55.929Z"
     }
